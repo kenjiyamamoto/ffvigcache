@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<overlay id="ffvigcache" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+ <script type="text/javascript" src="chrome://ffvigcache/content/jquery.min.js"></script>
+ <script type="text/javascript" src="chrome://ffvigcache/content/comportamento.js"></script>
+
+
+ <statusbar id="status-bar">
+    <statusbarpanel id="my-panel">
+      <image src="chrome://ffvigcache/content/vignette-white-small.gif" width='20' height='20' />
+    </statusbarpanel>
+ </statusbar>
+
+</overlay>
+

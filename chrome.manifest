@@ -1,0 +1,4 @@
+content     ffvigcache          chrome/content/
+overlay chrome://browser/content/browser.xul chrome://ffvigcache/content/marcacao.xul
+
+
