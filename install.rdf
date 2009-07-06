@@ -20,7 +20,7 @@
    
     <!-- Front End MetaData -->
     <em:name>Vignette Limpa Cache</em:name>
-    <em:description>Limpa o cache das páginas Globo.com na platamforma Vignette. Somente ambientes de dev e qa.</em:description>
+    <em:description>Limpa o cache das páginas Globo.com da platamforma Vignette. Somente ambientes dev e qa.</em:description>
     <em:creator>Rodrigo Vitoria Lopes   </em:creator>
     <em:homepageURL>http://code.rodrigovitoria.com/</em:homepageURL>
   </Description>      

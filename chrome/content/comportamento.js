@@ -18,7 +18,7 @@ var myExtension = {
 
   onPageLoad: function(aEvent) {
     //var doc = aEvent.originalTarget; // doc is document that triggered "onload" event
-    myExtension.alterarContextoVignette(doc);
+    myExtension.alterarContextoVignette();
   },
   
   onSelectTab: function(aEvent) {
@@ -58,7 +58,7 @@ var myExtension = {
 
 
 /*UTILS*/
-var Utils {
+var Utils = {
     mainWindow : function() {
 
         var mainWindow = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor)
