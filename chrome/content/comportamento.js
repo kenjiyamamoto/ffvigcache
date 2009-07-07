@@ -7,13 +7,14 @@ var myExtension = {
 
   init: function() {
     $('#my-panel').css('display', 'none');
-    $('#my-panel').click(myExtension.actionLeftClick);
+    $('#my-panel').click(myExtension.onLeftClick);
     
     var appcontent = document.getElementById("appcontent");   // browser
     if(appcontent) {
       appcontent.addEventListener("DOMContentLoaded", myExtension.onPageLoad, true);
       gBrowser.addEventListener("select", myExtension.onSelectTab, false);
     }
+    
   },
 
   onPageLoad: function(aEvent) {
@@ -28,7 +29,7 @@ var myExtension = {
   alterarContextoVignette: function(doc) {
     //exibe o botão se for uma página vignette e interna
     doc = Utils.mainWindow().content;
-    if(doc.location.href.search("/0,,") > -1) {
+    if(doc.location.href.search("/0,,") > -1 and ) {
       $('#my-panel').css('display', 'block');
       myExtension.urlAmbiente   = 'http://'+doc.location.href.split('/')[2];
       myExtension.urlParaLimpar = doc.location.href.split(myExtension.urlAmbiente)[1];
@@ -38,19 +39,36 @@ var myExtension = {
     }
   },
   
-  actionLeftClick: function(event) {
-
+  onLeftClick: function(event) {
     if (event.button == 0) {
-        alert(gBrowser.content.location.href);
         $('#my-panel image').get(0).src = 'chrome://ffvigcache/content/loading-green.gif';  
-        $.get('http://www.google.com.br/', {}, myExtension.actionLeftClickCallback)   
-    }
+        $.get(myExtension.urlAmbiente + myExtension.urlLimpaCache, {'limpar' : myExtension.urlParaLimpar}, myExtension.onLeftClickCallback, 'html');
+        $.ajax({
+                  url: myExtension.urlAmbiente + myExtension.urlLimpaCache,
+                  type: "GET",
+                  data: {'limpar' : myExtension.urlParaLimpar},
+                  dataType: "html",
+                  success: function(msg){ },
+                  error: function(XMLHttpRequest, textStatus, errorThrown){
+                     myExtension.onError();
+                  },
+                  complete: function(XMLHttpRequest, textStatus){
+                     myExtension.onLeftClickCallback();
+                  }
+        })
+    }//if
   
   },
   
-  actionLeftClickCallback: function(data) {
-    //alert(data);
+  onLeftClickCallback: function(data) {
     $('#my-panel image').get(0).src = 'chrome://ffvigcache/content/vignette-white-small.gif';  
+    if (data.search("limpo com sucesso") == -1) {
+        myExtension.onError();
+    }
+  },
+  
+  onError: function() {
+    alert('Não foi possível limpar o cache do path: ' + myExtension.urlParaLimpar + '\nO serviço de limpeza pode estar indisponível.\nUrl do serviço: ' + myExtension.urlAmbiente + myExtension.urlLimpaCache);
   }
   
 }
