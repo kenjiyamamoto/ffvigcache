@@ -42,18 +42,17 @@ var myExtension = {
   onLeftClick: function(event) {
     if (event.button == 0) {
         $('#my-panel image').get(0).src = 'chrome://ffvigcache/content/loading-green.gif';  
-        $.get(myExtension.urlAmbiente + myExtension.urlLimpaCache, {'limpar' : myExtension.urlParaLimpar}, myExtension.onLeftClickCallback, 'html');
         $.ajax({
                   url: myExtension.urlAmbiente + myExtension.urlLimpaCache,
                   type: "GET",
-                  data: {'limpar' : myExtension.urlParaLimpar},
+                  data: {'path' : myExtension.urlParaLimpar},
                   dataType: "html",
-                  success: function(msg){ },
-                  error: function(XMLHttpRequest, textStatus, errorThrown){
-                     myExtension.onError();
+                  success: myExtension.onLeftClickCallback,
+                  error:   function(XMLHttpRequest, textStatus, errorThrown){ 
+                    myExtension.onError(); 
                   },
-                  complete: function(XMLHttpRequest, textStatus){
-                     myExtension.onLeftClickCallback();
+                  complete:function(XMLHttpRequest, textStatus){ 
+                    $('#my-panel image').get(0).src = 'chrome://ffvigcache/content/vignette-white-small.gif'; 
                   }
         })
     }//if
@@ -61,8 +60,7 @@ var myExtension = {
   },
   
   onLeftClickCallback: function(data) {
-    $('#my-panel image').get(0).src = 'chrome://ffvigcache/content/vignette-white-small.gif';  
-    if (data.search("limpo com sucesso") == -1) {
+    if (data.search("limpo com sucesso") < 0) {
         myExtension.onError();
     }
   },
