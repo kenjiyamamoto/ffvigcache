@@ -29,7 +29,7 @@ var myExtension = {
   alterarContextoVignette: function(doc) {
     //exibe o botão se for uma página vignette e interna
     doc = Utils.mainWindow().content;
-    if(doc.location.href.search("/0,,") > -1 and ) {
+    if(doc.location.href.search("/0,,") > -1 && doc.location.href.search("globoi") > -1) {
       $('#my-panel').css('display', 'block');
       myExtension.urlAmbiente   = 'http://'+doc.location.href.split('/')[2];
       myExtension.urlParaLimpar = doc.location.href.split(myExtension.urlAmbiente)[1];

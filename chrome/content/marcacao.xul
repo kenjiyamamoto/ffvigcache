@@ -7,8 +7,8 @@
 
 
  <statusbar id="status-bar">
-    <statusbarpanel id="my-panel">
-      <image src="chrome://ffvigcache/content/vignette-white-small.gif" width='20' height='20' />
+    <statusbarpanel id="my-panel" tooltiptext="Clique para limpar o cache desta página">
+      <image src="chrome://ffvigcache/content/vignette-white-small.gif" width='20' height='20'/>
     </statusbarpanel>
  </statusbar>
 
