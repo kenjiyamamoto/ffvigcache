@@ -5,3 +5,7 @@ de dev e qa da globo.com.
 Meus informaçõe no wiki:
 http://wiki.github.com/rodvlopes/ffvigcache
 
+Obs.:
+Para criar o arquivo XPI.
+python create_xpi_file.py
+
