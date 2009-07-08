@@ -5,7 +5,12 @@ de dev e qa da globo.com.
 Meus informaçõe no wiki:
 http://wiki.github.com/rodvlopes/ffvigcache
 
-Obs.:
+Obs 1:
 Para criar o arquivo XPI.
 python create_xpi_file.py
 
+Obs 2:
+o arquivo get_ffvigcache.php serve para hostear o arquivo xpi de modo 
+a forçar a intalação automática pelo browser, sem ter que baixar e
+arrastar pra dentro do browser para poder iniciar o instalador de 
+extensões do firefox.
