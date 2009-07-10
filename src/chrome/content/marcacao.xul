@@ -2,7 +2,8 @@
 
 <overlay id="ffvigcache" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
- <script type="text/javascript" src="chrome://ffvigcache/content/jquery.min.js"></script>
+ <script type="text/javascript" src="chrome://ffvigcache/content/jquery-1.2.6.min.js"></script>
+ <script>$jq = jQuery.noConflict();</script>
  <script type="text/javascript" src="chrome://ffvigcache/content/comportamento.js"></script>
 
 

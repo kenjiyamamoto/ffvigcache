@@ -6,8 +6,8 @@ var myExtension = {
   urlLimpaCache: '/sistemas/testes/teste-LimpaCacheForm',
 
   init: function() {
-    $('#my-panel').css('display', 'none');
-    $('#my-panel').click(myExtension.onLeftClick);
+    $jq('#my-panel').css('display', 'none');
+    $jq('#my-panel').click(myExtension.onLeftClick);
     
     var appcontent = document.getElementById("appcontent");   // browser
     if(appcontent) {
@@ -30,19 +30,19 @@ var myExtension = {
     //exibe o botão se for uma página vignette e interna
     doc = Utils.mainWindow().content;
     if(doc.location.href.search("/0,,") > -1 && doc.location.href.search("globoi") > -1) {
-      $('#my-panel').css('display', 'block');
+      $jq('#my-panel').css('display', 'block');
       myExtension.urlAmbiente   = 'http://'+doc.location.href.split('/')[2];
       myExtension.urlParaLimpar = doc.location.href.split(myExtension.urlAmbiente)[1];
     }
     else {
-      $('#my-panel').css('display', 'none');
+      $jq('#my-panel').css('display', 'none');
     }
   },
   
   onLeftClick: function(event) {
     if (event.button == 0) {
-        $('#my-panel image').get(0).src = 'chrome://ffvigcache/content/loading-green.gif';  
-        $.ajax({
+        $jq('#my-panel image').get(0).src = 'chrome://ffvigcache/content/loading-green.gif';  
+        $jq.ajax({
                   url: myExtension.urlAmbiente + myExtension.urlLimpaCache,
                   type: "GET",
                   data: {'path' : myExtension.urlParaLimpar},
@@ -52,7 +52,7 @@ var myExtension = {
                     myExtension.onError(); 
                   },
                   complete:function(XMLHttpRequest, textStatus){ 
-                    $('#my-panel image').get(0).src = 'chrome://ffvigcache/content/vignette-white-small.gif'; 
+                    $jq('#my-panel image').get(0).src = 'chrome://ffvigcache/content/vignette-white-small.gif'; 
                   }
         })
     }//if
@@ -95,7 +95,7 @@ var Utils = {
         var doc = window.content.document;
 
         var str = '';
-        $('a', doc).each(function()
+        $jq('a', doc).each(function()
                     { 
                       str += this.href;
                     }
