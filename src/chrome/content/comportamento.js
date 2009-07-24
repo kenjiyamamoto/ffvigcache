@@ -4,10 +4,11 @@ var myExtension = {
   urlAmbiente: '',
   urlParaLimpar: '',
   urlLimpaCache: '/sistemas/testes/teste-LimpaCacheForm',
+  exibeRodaCount: 0,
 
   init: function() {
     $jq('#my-panel').css('display', 'none');
-    $jq('#my-panel').click(myExtension.onLeftClick);
+    $jq('#my-panel').click(myExtension.onClick);
     
     var appcontent = document.getElementById("appcontent");   // browser
     if(appcontent) {
@@ -39,9 +40,20 @@ var myExtension = {
     }
   },
   
-  onLeftClick: function(event) {
-    if (event.button == 0) {
-        $jq('#my-panel image').get(0).src = 'chrome://ffvigcache/content/loading-green.gif';  
+  onClick: function(event) {
+    if (event.button == 0) { //Left click
+        myExtension.limparHtml();
+        myExtension.limparJSs();
+        myExtension.limparCSSs();
+    } if (event.button == 1) { //Middle click
+        myExtension.easterEgg();
+    } else {    //Right click (maybe :-))
+        myExtension.limparHtml();
+    }
+  },
+  
+  limparHtml: function() {
+        myExtension.exibirRoda();
         $jq.ajax({
                   url: myExtension.urlAmbiente + myExtension.urlLimpaCache,
                   type: "GET",
@@ -54,11 +66,58 @@ var myExtension = {
                   complete:function(XMLHttpRequest, textStatus){ 
                     $jq('#my-panel image').get(0).src = 'chrome://ffvigcache/content/vignette-white-small.gif'; 
                   }
-        })
-    }//if
-  
+        });
   },
   
+  limparJSs: function() {
+        var doc = window.content.document;
+        $jq('head script[src*=".js"]', doc).each(
+              function() {
+                    myExtension.exibirRoda();
+                    this.src;
+                    var urlParaLimpar = '/'+this.src.split('.com/')[1];
+                    $jq.ajax({
+                              url: myExtension.urlAmbiente + myExtension.urlLimpaCache,
+                              type: "GET",
+                              data: {'path' : urlParaLimpar},
+                              dataType: "html",
+                              success: myExtension.onLeftClickCallback,
+                              error:   function(XMLHttpRequest, textStatus, errorThrown){ 
+                                myExtension.onError(); 
+                              },
+                              complete:function(XMLHttpRequest, textStatus){
+                                myExtension.esconderRoda(); 
+                              }
+                    });
+              }
+        );
+  },
+  
+  limparCSSs: function() {
+        var doc = window.content.document;
+        $jq('head link[href*=".css"]', doc).each(
+              function() {
+                    myExtension.exibirRoda();
+                    this.src;
+                    var urlParaLimpar = '/'+this.href.split('.com/')[1];
+                    $jq.ajax({
+                              url: myExtension.urlAmbiente + myExtension.urlLimpaCache,
+                              type: "GET",
+                              data: {'path' : urlParaLimpar},
+                              dataType: "html",
+                              success: myExtension.onLeftClickCallback,
+                              error:   function(XMLHttpRequest, textStatus, errorThrown){ 
+                                myExtension.onError(); 
+                              },
+                              complete:function(XMLHttpRequest, textStatus){
+                                myExtension.esconderRoda(); 
+                              }
+                    });
+              }
+        );
+  },
+  
+  //TODO refatorar o nome deste método para algo mais genérico
   onLeftClickCallback: function(data) {
     if (data.search("limpo com sucesso") < 0) {
         myExtension.onError();
@@ -67,6 +126,27 @@ var myExtension = {
   
   onError: function() {
     alert('Não foi possível limpar o cache do path: ' + myExtension.urlParaLimpar + '\nO serviço de limpeza pode estar indisponível.\nUrl do serviço: ' + myExtension.urlAmbiente + myExtension.urlLimpaCache);
+  },
+  
+  exibirRoda(): function() {
+    myExtension.exibeRodaCount++;
+    $jq('#my-panel image').get(0).src = 'chrome://ffvigcache/content/loading-green.gif';  
+  },
+  
+  esconderRoda(): function() {
+    myExtension.exibeRodaCount--;
+    if (myExtension.exibeRodaCount == 0)
+        $jq('#my-panel image').get(0).src = 'chrome://ffvigcache/content/vignette-white-small.gif';
+  },
+  
+  easterEgg: function() {
+    var rand = Math.floor(Math.random()*10 % 4 + 1);
+    var eggFile = 'chrome://ffvigcache/content/cow' +rand+ '.gif'; 
+    $jq('#my-panel image').get(0).src = eggFile;
+    setTimeout(
+        function() { $jq('#my-panel image').get(0).src = 'chrome://ffvigcache/content/vignette-white-small.gif'; },
+        2000
+    );
   }
   
 }
